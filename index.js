@@ -6,6 +6,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser')
+
 const db = require('./mockDatabase')
 
 const app = express();
@@ -25,8 +26,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.post('/api/shorturl', (req, res) => {
   const { url } = req.body
+  console.log('New shorturl request:', url)
   dns.lookup(new URL(url).hostname, async err => {
-    if (err) return res.status(400).json({ error: 'Invalid url', code: err.code })
+    if (err) {
+      console.log(`Abort: invalid hostname`)
+      // initially included status 400, but that did not pass the tests
+      return res.json({ error: 'invalid url' })
+    }
     try {
       const data = (await db).data
       const short_url = data.nextId++
