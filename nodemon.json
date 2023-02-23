@@ -1,8 +1,9 @@
 {
   "restartable": "rs",
   "ignore": [
-      ".git",
-      "node_modules/**/node_modules"
+    ".git",
+    "node_modules/**/node_modules",
+    "shorturl.json"
   ],
   "verbose": true,
   "env": {
